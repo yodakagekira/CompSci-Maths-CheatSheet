@@ -151,6 +151,43 @@ class BinarySearchTree {
       prev = null; // Reset prev for subsequent calls to isBST
       return isBSTUtil(root);
   }
+
+    public void treeDelete(TreeNode z) {
+    TreeNode y, x;
+    
+    // Step 1: Determine the node y to remove from the tree.
+    if (z.left == null || z.right == null) {
+        y = z;
+    } else {
+        y = treeSuccessor(z);
+    }
+    
+    // Step 2: Determine the child x of y.
+    if (y.left != null) {
+        x = y.left;
+    } else {
+        x = y.right;
+    }
+    
+    // Step 3: Reassign the parent of x if x is not null.
+    if (x != null) {
+        x.parent = y.parent;
+    }
+    
+    // Step 4: If y's parent is null, then x is the new root; otherwise, reattach x to y's parent.
+    if (y.parent == null) {
+        root = x;
+    } else if (y == y.parent.left) {
+        y.parent.left = x;
+    } else {
+        y.parent.right = x;
+    }
+    
+    // Step 5: If y is not z, copy y's data into z.
+    if (y != z) {
+        z.key = y.key;
+        // Copy other satellite data if necessary
+    }
 }
 ////////////////////////////////////////////////////////////////////
 public class Main {
