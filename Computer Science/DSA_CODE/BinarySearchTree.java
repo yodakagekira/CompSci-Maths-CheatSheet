@@ -94,36 +94,6 @@ class BinarySearchTree {
         }
     }
 
-    public void delete(TreeNode z) {
-        if (z.left == null) {
-            transplant(z, z.right);
-        } else if (z.right == null) {
-            transplant(z, z.left);
-        } else {
-            TreeNode y = minimum(z.right);
-            if (y.parent != z) {
-                transplant(y, y.right);
-                y.right = z.right;
-                y.right.parent = y;
-            }
-            transplant(z, y);
-            y.left = z.left;
-            y.left.parent = y;
-        }
-    }
-
-    private void transplant(TreeNode u, TreeNode v) {
-        if (u.parent == null) {
-            root = v;
-        } else if (u == u.parent.left) {
-            u.parent.left = v;
-        } else {
-            u.parent.right = v;
-        }
-        if (v != null) {
-            v.parent = u.parent;
-        }
-    }
     private boolean isBSTUtil(TreeNode node) {
       // Base case: An empty tree is a BST
       if (node == null) {
