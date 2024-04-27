@@ -1,24 +1,38 @@
-DIJKSTRA(G, src) {
-    Unvisited = G.V
-    for each vtx in G.V {
-        Dist[vtx] = ∞
-        Prev[vtx] = NULL
+function DIJKSTRA(Graph G, int src) {
+    int[] Dist = new int[G.V.length];
+    int[] Prev = new int[G.V.length];
+    MinHeap PQ = new MinHeap(G.V.length);
+    
+    // Initialize distances and previous vertices
+    for (int vtx = 0; vtx < G.V.length; vtx++) {
+        Dist[vtx] = INFINITY;
+        Prev[vtx] = -1; // Using -1 to represent NULL or no previous vertex
     }
-    Dist[src] = 0
-
-    PQ = new MinHeap(G.V, Dist)
-
+    Dist[src] = 0;
+    
+    // Add vertices to the priority queue
+    for (int vtx = 0; vtx < G.V.length; vtx++) {
+        PQ.insert(vtx, Dist[vtx]);
+    }
+    
     while (!PQ.isEmpty()) {
-        u = PQ.delMin()
+        int u = PQ.delMin();
 
-        for each edge (u, v) in G.adj[u] {
-            if (Dist[v] > Dist[u] + W(u, v)) {
-                Dist[v] = Dist[u] + W(u, v)
-                Prev[v] = u
-                PQ.decreaseKey(v, Dist[v])
+        // Assuming G.adj[u] returns a list of edges (u, v) with their weights
+        for (int i = 0; i < G.adj[u].length; i++) {
+            Edge edge = G.adj[u][i];
+            int v = edge.target;
+            int weightUV = edge.weight;
+
+            // Relaxation step
+            if (Dist[v] > Dist[u] + weightUV) {
+                Dist[v] = Dist[u] + weightUV;
+                Prev[v] = u;
+                PQ.decreaseKey(v, Dist[v]);
             }
         }
     }
-
-    return PathTree(src, Dist, Prev)
+    
+    // Assuming PathTree function reconstructs the path using Prev array
+    return PathTree(src, Dist, Prev);
 }
