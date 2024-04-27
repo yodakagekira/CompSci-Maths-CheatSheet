@@ -1,0 +1,24 @@
+DIJKSTRA(G, src) {
+    Unvisited = G.V
+    for each vtx in G.V {
+        Dist[vtx] = ∞
+        Prev[vtx] = NULL
+    }
+    Dist[src] = 0
+
+    PQ = new MinHeap(G.V, Dist)
+
+    while (!PQ.isEmpty()) {
+        u = PQ.delMin()
+
+        for each edge (u, v) in G.adj[u] {
+            if (Dist[v] > Dist[u] + W(u, v)) {
+                Dist[v] = Dist[u] + W(u, v)
+                Prev[v] = u
+                PQ.decreaseKey(v, Dist[v])
+            }
+        }
+    }
+
+    return PathTree(src, Dist, Prev)
+}
